@@ -25,10 +25,12 @@ public:
     //Modifica: -
     void leerArchivo(string s);
 
-    //Efecto: crea un archivo xml nuevo a partir de otro, pero sin etiquetas
-    //Requiere: nombre valido
-    //Modifica: .
-    void opcional(string nombre);
+    void opcional(string nom);
+    string getEtq(int i);
+
+    int getTimes(int i);
+
+    int totalEtq();
 
 private:
     string nArchivo;

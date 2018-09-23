@@ -8,8 +8,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#define MSGSIZE 80
-
 using namespace std;
 
 class Diccionario {
@@ -52,16 +50,22 @@ public:
         void agregar(string);
 
 
-	//Efecto: ordena alfabeticamente los elementos del diccionario
+	    //Efecto: ordena alfabeticamente los elementos del diccionario
         //Requiere: diccionario inicializado y no vacio
         //Modifica: el diccionario
         void ordenar();
-        
-        int getNumElem();
+
+        //Efecto:
+        //Requiere:
+        //Modifica:
+        string getEtq(int i);
+
+        int getNumApar(int i);
+        int numElementos();
 
     private:
         Caja *primero;
-	int numElem;
+	    int numElem;
 };
 
 #endif //PRUEBA_DICCIONARIO_H

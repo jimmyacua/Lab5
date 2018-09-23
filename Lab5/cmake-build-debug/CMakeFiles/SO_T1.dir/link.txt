@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/SO_T1.dir/main.cpp.o CMakeFiles/SO_T1.dir/Buzon.cpp.o CMakeFiles/SO_T1.dir/Diccionario.cpp.o CMakeFiles/SO_T1.dir/Fichero.cpp.o CMakeFiles/SO_T1.dir/Semaforo.cpp.o  -o SO_T1 

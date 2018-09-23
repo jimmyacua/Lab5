@@ -2,9 +2,10 @@
 // Created by jimmy on 21/08/18.
 //
 #include "Fichero.h"
+#include "Buzon.h"
 
 Fichero::Fichero() {
-
+    diccionario.crear();
 }
 
 void Fichero::leerArchivo(string s) {
@@ -32,9 +33,21 @@ void Fichero::leerArchivo(string s) {
             }
         }
         fichero.close();
+        diccionario.ordenar();
     }
-    diccionario.ordenar();
+
     //diccionario.destruir();
+
+    /*int cont = 1;
+    Buzon b;
+    while(cont < diccionario.numElementos()){
+        string etq = diccionario.getEtq(cont);
+        int numAp = diccionario.getNumApar(cont);
+        b.Enviar(etq.c_str(),numAp, 1);
+    }
+    cout << "enviados" << endl;
+    _exit(0);*/
+
 }
 
 void Fichero::opcional(string nombre) {
@@ -60,13 +73,9 @@ void Fichero::opcional(string nombre) {
                         palabra += *aux;
                         aux++;
                     }
-
-                    //it = aux;
                     nuevo << palabra << endl;
                 }
             }
-            //cout << palabra << endl;
-            //nuevo << linea << endl;
         }
         fichero.close();
     }
@@ -74,3 +83,17 @@ void Fichero::opcional(string nombre) {
     nuevo.close();
     cout << "Se ha generado el archivo " << nombre << endl;
 }
+
+string Fichero::getEtq(int i) {
+    return diccionario.getEtq(i);
+}
+
+int Fichero::getTimes(int i) {
+    return diccionario.getNumApar(i);
+}
+
+int Fichero::totalEtq() {
+    return diccionario.numElementos();
+}
+
+

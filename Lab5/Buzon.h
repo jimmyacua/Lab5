@@ -18,12 +18,13 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
+
 class Buzon {
 public:
     Buzon();
     ~Buzon();
-    int Enviar(char * nmsj, int v);
-    int Recibir( char *mensaje, int len );   // len es el tamaño máximo que soporte la variable mensaje
+    int Enviar(const char * nmsj, int i, long type);
+    int Recibir(long type);
 private:
     int id;		// Identificador del buzon
 };

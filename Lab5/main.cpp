@@ -1,29 +1,75 @@
-#include <iostream>
-#include <string>
-#include <fstream>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <sys/shm.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <cstdlib>
+#include <string.h>
+#include "Diccionario.h"
 #include "Fichero.h"
+#include <wait.h>
 
-/*
- * Compilar usando "g++ Diccionario.cpp Fichero.cpp main.cpp" (sin las comillas)
- * y ejecutar el programa con "./a.out ejemploXML.xml" (sin las comillas).
- * Para ejecutar el punto opcional debe hacerlo con el comando:
- * "./a.out -t nombreDeArchivo.xml" (sin las comillas).
- */
+#include "Buzon.h"
+#include "Semaforo.h"
 
-using namespace std;
+int main(int argc, char** argv) {
 
-int main(int argc, char *argv[]) {
-    Fichero fichero;
+    //PARTE 1
+    /*Fichero f;
+    Buzon b;
     string param = argv[1];
     if(param.compare("-t") == 0) {
         string nombre = argv[2];
-        fichero.opcional(nombre);
+        f.opcional(nombre);
     }
     else {
         string archivo = argv[1];
-        fichero.leerArchivo(archivo);
-    }
+        int i = fork();
+        if(i) {
+            cout << i << " Empieza a leer " << endl;
+            f.leerArchivo(archivo);
+            int cont = 1;
+            while(cont <= f.totalEtq()){
+                b.Enviar(f.getEtq(cont).c_str(), f.getTimes(cont), 1);
+                cont++;
+            }
+            struct msgbuf A;
+            int st = b.Recibir(1);
+            while(st > 1) {
+                b.Recibir(1);
+            }
+            _exit(0);
+        }
+        else{
+            exit(0);
+        }
+    }*/
 
-    //return 0;
+    //PARTE 2
+    int id;
+    id = shmget(KEY, 1024, 0600 | IPC_CREAT );
+    char * area = (char *) shmat( id, NULL, 0 );
+    Buzon b;
+    if ( fork() ) {
+        Fichero f;
+        string archivo = argv[1];
+        f.leerArchivo(archivo);
+        int cont = 1;
+        while(cont <= f.totalEtq()){
+            b.Enviar(f.getEtq(cont).c_str(), f.getTimes(cont), 1);
+            cont++;
+        }
+        _exit(0);
+    }
+    else {
+        int st = b.Recibir(1);
+        while(st > 1) {
+            b.Recibir(1);
+        }
+    }
+    shmdt( area );
+    shmctl( id, IPC_RMID, NULL );
+    _exit(0);
+
 }

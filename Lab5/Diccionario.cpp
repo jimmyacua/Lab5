@@ -3,11 +3,6 @@
 //
 
 #include "Diccionario.h"
-#include "Buzon.h"
-#include <unistd.h>
-#include <string>
-#include <iostream>
-#include <cstring>
 
 void Diccionario::crear() {
     primero = NULL;
@@ -53,9 +48,6 @@ void Diccionario::agregar(string elem) {
 
 }
 
-int Diccionario::getNumElem(){
-    return numElem;
-}
 
 void Diccionario::ordenar() {
     Caja* min;
@@ -83,34 +75,29 @@ void Diccionario::ordenar() {
         p = p->sgt;
         cont1++;
     }
-    
-   Caja* aux = primero;
-   Buzon b;
-   char a[MSGSIZE];
-    int id = fork();
-    if(id){
-        char etq[MSGSIZE];
-        int cont = 1;
-        while(cont <= getNumElem()){
-            strncpy(etq, aux->elem.c_str(), MSGSIZE);
-            b.Enviar(etq, aux->numApariciones);
-            aux = aux->sgt;
-            cont++;
-            
-        }
-        _exit(0);
-        
-    } else{
-        int st = b.Recibir(a,MSGSIZE);
-        printf("El mensaje recibido es: %s \n", a );
-        while(st > 0){
-            st = b.Recibir(a,MSGSIZE);
-            printf("El mensaje recibido es: %s \n", a ); 
-            _exit(0);          
-        }
-        
-    }
+}
+
+string Diccionario::getEtq(int i) {
+    Caja* aux = primero;
+    int num = 1;
+    while(aux != NULL && num < i){
         //cout << aux->elem << ": " << aux->numApariciones << endl;
-        
-    
+        aux = aux->sgt;
+        num++;
+    }
+    return aux->elem;
+}
+
+int Diccionario::getNumApar(int i) {
+    Caja* aux = primero;
+    int num = 1;
+    while(aux != NULL && num<i){
+        aux = aux->sgt;
+        num++;
+    }
+    return aux->numApariciones;
+}
+
+int Diccionario::numElementos() {
+    return numElem;
 }
